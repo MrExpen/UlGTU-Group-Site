@@ -25,7 +25,7 @@ public class UserManagerForTests : IUsersManager
             FirstName = "Алина",
             Registered = true,
             DbId = new Guid("9CC10AA6-3C96-4150-AE3B-B0E0CE0A24F5"),
-            Birthday = new DateOnly(2003, 7,26)
+            Birthday = new DateOnly(2003, 6,26)
         }
     };
 

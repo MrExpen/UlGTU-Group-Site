@@ -1,16 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SiteWithInfo.Services.Interfaces;
 
 namespace SiteWithInfo.Controllers;
 
+[Authorize]
 public class ProfileController : Controller
 {
+    private readonly IUsersManager _usersManager;
+
+    public ProfileController(IUsersManager usersManager)
+    {
+        _usersManager = usersManager;
+    }
+
     public IActionResult Index()
     {
-        return View();
+        return RedirectToAction("GetProfile", new { id = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) });
     }
     
-    public IActionResult GetProfile(int? id)
+    public async Task<IActionResult> GetProfile(Guid? id)
     {
-        return View();
+        var user = await _usersManager.GetUserByIdAsync(id ?? Guid.Empty);
+        return View(user);
     }
 }

@@ -1,0 +1,42 @@
+﻿@using System.Collections
+@model User?
+
+@{
+    ViewData["Title"] = Model is not null ? $"Профиль {Model.FullName}" : "NotFound";
+}
+@if (Model is not null)
+{
+    <table class="table table-bordered">
+        <tbody>
+        @foreach (var property in typeof(User).GetProperties())
+        {
+            var name = property.Name;
+            var value = property.GetValue(Model);
+            if (value is not null)
+            {
+                if (value is IEnumerable enumerable and not string)
+                {
+                    foreach (var item in enumerable)
+                    {
+                        <tr>
+                            <th>@name</th>
+                            <td>@item</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <th>@name</th>
+                        <td>@value</td>
+                    </tr>
+                }
+            }
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1>User not found.</h1>
+}
