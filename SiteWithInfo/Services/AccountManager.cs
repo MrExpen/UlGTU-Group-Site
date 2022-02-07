@@ -14,15 +14,22 @@ public class AccountManager : IAccountManager
         _passwordHasher = passwordHasher;
     }
 
-    public async Task UpdatePassword(User user, string password)
+    public async Task RegisterUser(User user, string userName, string password, CancellationToken token = default)
     {
-        user.Password = _passwordHasher.HashPassword(password);
-        await UpdateSecurityStamp(user);
+        user.UserName = userName;
+        user.Registered = true;
+        await UpdatePassword(user, password, token);
     }
 
-    public async Task UpdateSecurityStamp(User user)
+    public async Task UpdatePassword(User user, string password, CancellationToken token = default)
+    {
+        user.Password = _passwordHasher.HashPassword(password);
+        await UpdateSecurityStamp(user, token);
+    }
+
+    public async Task UpdateSecurityStamp(User user, CancellationToken token = default)
     {
         user.SecurityStamp = DateTime.Now.Ticks;
-        await _usersManager.UpdateAsync(user);
+        await _usersManager.UpdateAsync(user, token);
     }
 }

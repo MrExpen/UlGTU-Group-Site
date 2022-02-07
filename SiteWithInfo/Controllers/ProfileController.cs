@@ -20,16 +20,16 @@ public class ProfileController : Controller
 
     public async Task<IActionResult> Index()
     {
-        return RedirectToAction("GetProfile", new { id = (await _signInManager.GetLoginedUser())?.DbId });
+        return RedirectToAction("GetProfile", new { id = (await _signInManager.GetLoginedUser())?.UserName });
     }
-    public async Task<IActionResult> GetProfile(string id)
+    public async Task<IActionResult> GetProfile(string? id)
     {
-        User? user;
+        User? user = default;
         if (Guid.TryParse(id, out var userId))
         {
             user = await _usersManager.GetUserByIdAsync(userId);
         }
-        else
+        else if (!string.IsNullOrEmpty(id))
         {
             user = await _usersManager.GetUserByUserNameAsync(id);
         }
