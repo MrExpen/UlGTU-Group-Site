@@ -35,7 +35,7 @@ public class AccountController : Controller
             return View(loginModel);
         }
         
-        var user = await _usersManager.GetUserByIdUserNameAndPassword(loginModel.UserName, loginModel.Password);
+        var user = await _usersManager.GetUserByUserNameAndPasswordAsync(loginModel.UserName, loginModel.Password);
         if (user is null)
         {
             ModelState.AddModelError("All", _messageManager.InvalidLoginOrPassword);

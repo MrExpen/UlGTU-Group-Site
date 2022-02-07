@@ -4,6 +4,7 @@ namespace SiteWithInfo.Services.Interfaces;
 
 public interface ISignInManager
 {
-    Task SignInAsync(User user);
-    Task SignOutAsync();
+    Task<User?> GetLoginedUser(CancellationToken token = default);
+    Task SignInAsync(User user, CancellationToken token = default);
+    Task SignOutAsync(CancellationToken token = default);
 }

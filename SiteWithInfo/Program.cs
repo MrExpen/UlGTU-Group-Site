@@ -33,8 +33,9 @@ builder.Services.AddAuthentication();
 
 builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 
-builder.Services.AddSingleton<IUsersManager>(new UserManagerForTests());
 builder.Services.AddScoped<ISignInManager, SignInManager>();
+builder.Services.AddSingleton<IUsersManager, UserManagerForTests>();
+builder.Services.AddSingleton<IPasswordHasher, PasswordHasherSha512>();
 builder.Services.AddSingleton<IMessageManager, MessageManager>();
 builder.Services.AddHttpContextAccessor();
 
