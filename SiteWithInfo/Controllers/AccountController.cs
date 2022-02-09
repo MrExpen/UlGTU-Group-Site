@@ -57,6 +57,11 @@ public class AccountController : Controller
     {
         throw new NotImplementedException();
     }
+
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
     
     public IActionResult ExternalLogin()
     {

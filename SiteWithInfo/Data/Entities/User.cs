@@ -32,7 +32,7 @@ public class User
     public bool Deleted { get; set; }
     public bool Blocked { get; set; }
     public bool Admin { get; set; }
-    public string? PhotoUrl { get; set; }
+    public string? PhotoName { get; set; }
     public virtual ICollection<Service> Services { get; set; } = new List<Service>();
 
     #endregion

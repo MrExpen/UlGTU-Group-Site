@@ -1,0 +1,12 @@
+﻿@model System.Collections.Generic.IEnumerable<SiteWithInfo.Data.Entities.User>
+
+@{
+    ViewData["Title"] = "Все пользователи";
+}
+
+@foreach (var user in Model!)
+{
+    <a class="list-group-item list-group-item-action" href="@Url.Action("GetProfile", new {id = user.UserName ?? user.DbId.ToString()} )">
+        @user.FullName {@(user.DaysLeft.HasValue ? user.DaysLeft.Value.ToString() : "?")}
+    </a>
+}

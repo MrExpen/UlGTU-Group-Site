@@ -2,41 +2,50 @@
 @model User?
 
 @{
-    ViewData["Title"] = Model is not null ? $"Профиль {Model.FullName}" : "NotFound";
+    ViewData["Title"] = $"Профиль {Model!.FullName}";
 }
-@if (Model is not null)
-{
-    <table class="table table-bordered">
-        <tbody>
-        @foreach (var property in typeof(User).GetProperties())
+
+<div class="row">
+    <div class="col-md-4">
+        @if (string.IsNullOrEmpty(Model.PhotoName))
         {
-            var name = property.Name;
-            var value = property.GetValue(Model);
-            if (value is not null)
+            <img src="~/img/NoPhoto.png" alt=""/>
+        }
+        else
+        {
+            <img src="~/img/@Model.PhotoName" alt=""/>
+        }
+    </div>
+    
+    <div class="col-md-4">
+        <table class="table table-bordered">
+            <tbody>
+            @foreach (var property in typeof(User).GetProperties())
             {
-                if (value is IEnumerable enumerable and not string)
+                var name = property.Name;
+                var value = property.GetValue(Model);
+                if (value is not null)
                 {
-                    foreach (var item in enumerable)
+                    if (value is IEnumerable enumerable and not string)
+                    {
+                        foreach (var item in enumerable)
+                        {
+                            <tr>
+                                <th>@name</th>
+                                <td>@item</td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
                             <th>@name</th>
-                            <td>@item</td>
+                            <td>@value</td>
                         </tr>
                     }
                 }
-                else
-                {
-                    <tr>
-                        <th>@name</th>
-                        <td>@value</td>
-                    </tr>
-                }
             }
-        }
-        </tbody>
-    </table>
-}
-else
-{
-    <h1>User not found.</h1>
-}
+            </tbody>
+        </table>
+    </div>
+</div>

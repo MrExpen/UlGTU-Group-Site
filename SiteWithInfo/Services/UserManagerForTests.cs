@@ -10,9 +10,9 @@ public class UserManagerForTests : IUsersManager
     public UserManagerForTests(IPasswordHasher passwordHasher)
     {
         _passwordHasher = passwordHasher;
-        _users = new ()
+        _users = new List<User>
         {
-            new User
+            new()
             {
                 Admin = true,
                 Birthday = new DateOnly(2003,2,17),
@@ -25,11 +25,11 @@ public class UserManagerForTests : IUsersManager
                 Registered = true,
                 DbId = new Guid("0F381C1E-4DA9-40A4-AF12-FC581FCECC9F")
             },
-            new User
+            new()
             {
                 LastName = "Андрианова",
                 FirstName = "Алина",
-                UserName = "DrianLinov",
+                UserName = "DrianLinnov",
                 Password = _passwordHasher.HashPassword("pASSword"),
                 Registered = true,
                 SecurityStamp = DateTime.Now.Ticks,
@@ -37,7 +37,6 @@ public class UserManagerForTests : IUsersManager
                 Birthday = new DateOnly(2003, 6,26)
             }
         };
-
     }
 
     public Task<IEnumerable<User>> GetAllUsersAsync(CancellationToken token = default) => Task.FromResult(_users.AsEnumerable());
